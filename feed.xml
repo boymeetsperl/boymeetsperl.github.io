@@ -7,6 +7,27 @@
     <atom:link href="boymeetsperl.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Placeholder post</title>
+        <description>&lt;p&gt;Hello and welcome to this blog, it may not currently seem very populated,
+(because it isn&amp;rsquo;t) but I assure you that in the future it will be saturated
+with all sorts of meaningful content in which you can indulge. &lt;/p&gt;
+
+&lt;p&gt;Listed below are some topics that may be considered by this blog:
+- Programming of all kinds (trains, television, computer)
+- Yoyo (that thing that spins, for mastery of, see &lt;a href=&quot;http://www.youtube.com/watch?v=S8ulpjL6OHs&quot;&gt;here&lt;/a&gt;)
+- Things about text editors (emacs, sublime, vim, &amp;hellip; )
+- Anything else on my mind. &lt;/p&gt;
+
+&lt;p&gt;In any case, don&amp;rsquo;t worry if there isn&amp;rsquo;t anything here yet. The day is young.&lt;/p&gt;
+
+&lt;p&gt;Enjoy,&lt;/p&gt;
+</description>
+        <pubDate>Wed, 05 Feb 2014 11:54:32 +0000</pubDate>
+        <link>boymeetsperl.github.io/2014/02/05/first-post/</link>
+        <guid isPermaLink="true">boymeetsperl.github.io/2014/02/05/first-post/</guid>
+      </item>
+    
+      <item>
         <title>Scribble, a Jekyll theme</title>
         <description>&lt;p&gt;I have other themes, checkout (mainly) &lt;a href=&quot;https://github.com/muan/muan.github.com/releases&quot;&gt;this repository&lt;/a&gt; and &lt;a href=&quot;https://github.com/muan/jekyll-wardrobe&quot;&gt;this repository&lt;/a&gt;. &amp;lt;3&lt;/p&gt;
 
