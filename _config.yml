@@ -1,0 +1,16 @@
+title: Boy Meets Perl 
+description: "Boy Meets Perl: A Website"
+
+port: 3000
+pygments: true
+
+permalink: /:year/:month/:day/:title.html
+markdown: redcarpet
+
+google_analytics: #
+
+owner:
+  name: Ian McGaunn 
+  disqus_shortname: boymeetsperl 
+  twitter: cosbykid 
+  
