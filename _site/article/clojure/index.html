@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Clojure vs. C++ (My Personal Difficulties) &#8211; Boy Meets Perl</title>
+<meta name="description" content="">
+<meta name="keywords" content="programming, clojure, c++">
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Clojure vs. C++ (My Personal Difficulties) &#8211; Boy Meets Perl">
+<meta property="og:description" content="### Using ClojureRecently I've gotten into programming Clojure, which in general has been anexcellent experience. The...">
+<meta property="og:url" content="/article/clojure">
+<meta property="og:site_name" content="Boy Meets Perl">
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Boy Meets Perl Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Type -->
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic" rel='stylesheet' type='text/css' />
+<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/assets/css/entypo.css" media="all">
+
+<!-- In order to use Calendas Plus, you must first purchase it. Then, create a font-face package using FontSquirrel.
+<link rel='stylesheet' href='/assets/cal.css' media='all' />
+-->
+
+
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/i.css">
+<link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/zenburn.min.css">
+
+<!-- Fresh Squeezed jQuery -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+
+<div id="bump">
+  <body class="">
+    <header class="site-header">
+      <div class="wrap">
+        <hgroup>
+          <h1><a href="/">Boy Meets Perl</a></h1>
+        </hgroup>
+        <a href="#nav" class="menu"><span class='icons'>☰</span></a>
+        <nav role="navigation">
+          <ul>
+            <li>
+              <a href="/" title="Boy Meets Perl">Home</a>
+            </li>
+
+            
+                <li><a href="/about" >About</a></li>
+            
+                <li><a href="https://github.com/crunkmaster" target="_blank">Github</a></li>
+            
+                <li><a href="http://twitter.com/cosbykid" target="_blank">Twitter</a></li>
+            
+
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+
+<section class="article">
+
+
+  <div class="overlay"></div>
+  <div class="featured-image" style="background-image: url(/images/typewriter.jpg)"></div>
+
+
+
+      <article class="wrap post">
+        <header class="post-header">
+          <hgroup>
+            <h1>Clojure vs. C++ (My Personal Difficulties)</h1>
+            <p class="date">Jan 21, 2014</p>
+            <p class="intro"></p>
+          </hgroup>
+        </header>
+
+        <h3 id="using-clojure">Using Clojure</h3>
+<p>Recently I’ve gotten into programming Clojure, which in general has been an
+excellent experience. The community is solid, there’s plenty of good
+documentation about the langauge and (in general) it’s a pleasure to write code
+in Clojure. It’s sort of a stark transition from the curly-brace languages, but
+a mentally stimulating one, and the abstractions that Clojure provides make
+certain problems <em>much</em> easier to deal with. As part of my transition to the
+Clojure mindset, I’ve been trying to implement some algorithms in Clojure that
+I’ve implemented many times in other languages, and have found that certain
+things, like the sequence abstraction make programming a joy.</p>
+
+<h3 id="c-vs-clojure">C++ vs. Clojure</h3>
+<p>One useful function from the realm of mathematics is the generalized Euclidian
+Distance function. It takes two n-dimensional points and calculates the distance
+as would be measured by a ruler (read: straight line) between
+them. <img src="http://upload.wikimedia.org/math/3/e/3/3e31af0e62dd2780540f796b51a0ce4e.png" alt="Euclidian Distance Formula" /></p>
+
+<p>A naive solution in C++ would be the following:</p>
+<div>
+    <pre><code class="cpp">double euc_distance(Point p, Point q) {
+    int dimension = q.size();
+    double distance
+    vector&lt;double&gt; components;
+    double sum_of_squares = 0;
+
+    for (int i = 0; i &lt; dimension; i++)
+        components.push_back(q.coor()[i] - p.coor()[i]);
+    for (auto it = components.begin(); it != components.end(); ++it)
+        sum_of_squares += pow(*it, 2);
+
+    distance = pow(sum_of_squares, (1.0/2));
+    return distance;
+}</code></pre>
+  </div>
+
+<p>This solution assumes that both points will be of the same dimensionality. I’m sure
+there’s a simpler way to do this in C++, but without thinking very hard, this is
+a reasonable solution. Each corresponding component is subtracted, and then each
+of those results is squared and added together, finally the square root is
+taken.</p>
+
+<p>Here is a Clojure Solution:</p>
+<div>
+    <pre><code class="clj">(defn euc-distance
+    [x y]
+    {:pre (= (count x) (count y))}
+    (pow (apply + (map #(* % %) (map - x y)))
+        1/2))</code></pre>
+  </div>
+
+<p>Wow! The Clojure version even makes sure that the two points given to it are
+the same dimensionality! I think it’s a little more difficult to read, (you could
+probably fix this up with one of the thrushing macros) but it
+still makes perfect sense and avoids somewhat ugly things like for loops. It sort of
+forces you to think from the outside-in. If you were to read this, it
+would sound like this: “take the square root of the sum of the squared,
+component-wise subracted points”. Which, if you check against the formula above,
+will get you the right answer.</p>
+
+<h3 id="why-does-it-matter">Why Does It Matter?</h3>
+<p>There’s a trend recently of “X Language is Better than Y Language because
+factorial looks like this in X Language” type posts, but this one will attempt
+to not be like that, because I don’t see much value in that. The way your chosen
+langauge shapes the way you have to think about a problem is interesting though,
+and being able to represent and think about a problem from different
+perspectives is vital to being a good programmer. Clojure will likely never beat
+C++ in terms of efficiency, and C++ will (by design) never have the same
+syntactical abstraction capabilities of Clojure and other lisps. Design choices
+typically affect what kinds of problems are easy in a given language, but there
+will always be problems that are hard despite design changes to mitigate things.</p>
+
+
+      <a class="share" href="https://twitter.com/intent/tweet?text=&quot;Clojure vs. C++ (My Personal Difficulties)&quot;%20/article/clojure%20via%20&#64;cosbykid" data-dnt="true">Share</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+      
+      <aside class="disqus">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'boymeetsperl'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </aside>
+      
+
+
+      </article>
+
+    </section>
+</div>
+
+<div class="push"></div>
+  <footer>
+    <aside class="wrap">
+      <ol class="prev-posts">
+        <p class="list-title">Recent Posts</p>
+         <!-- for1 -->
+            <li>
+              <span class="recent-title"><a href="/article/clojure" title="Clojure vs. C++ (My Personal Difficulties)">Clojure vs. C++ (My Persona... </a></span>
+              <span class="date">Jan 21, 2014</span>
+            </li>
+         <!-- for1 -->
+            <li>
+              <span class="recent-title"><a href="/videos/jensen-kimmit" title="Jensen Kimmit - Cuts">Jensen Kimmit - Cuts </a></span>
+              <span class="date">Jan 19, 2014</span>
+            </li>
+        
+      </ol>
+
+      <div class="social">
+        <ul>
+            <li><a id="mail" href="mailto:ianmcgaunn@gmail.com"><span class="foot-link">Contact Me</span></a></li>
+
+            
+            <li><a id="twit" href="http://twitter.com/cosbykid" target="_blank"><span class="foot-link">@cosbykid</span></a></li>
+            
+
+
+            
+        </ul>
+    </div>
+    </aside>
+    <small>&copy; 2014 Ian McGaunn. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://jekyll.gtat.me/about">Balzac</a> theme.</small>
+  </footer>
+
+  <!-- If they're out, get some from the cellar -->
+  <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+  <script src="/assets/js/retina.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="/assets/js/scripts.js"></script>
+  <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

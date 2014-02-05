@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title type="text">Boy Meets Perl</title>
+<subtitle type="text">What Is Computer?</subtitle>
+<generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="" />
+<updated>2014-02-04T10:06:44-05:00</updated>
+<id>/</id>
+<author>
+  <name>Ian McGaunn</name>
+  <uri>/</uri>
+  <email>ianmcgaunn@gmail.com</email>
+</author>
+
+
+<entry>
+  <title type="html"><![CDATA[Clojure vs. C++ (My Personal Difficulties)]]></title>
+  <link rel="alternate" type="text/html" href="/article/clojure" />
+  <id>/article/clojure</id>
+  <published>2014-01-21T00:00:00-05:00</published>
+  <updated>2014-01-21T00:00:00-05:00</updated>
+  <author>
+    <name>Ian McGaunn</name>
+    <uri></uri>
+    <email>ianmcgaunn@gmail.com</email>
+  </author>
+  <content type="html">&lt;h3 id=&quot;using-clojure&quot;&gt;Using Clojure&lt;/h3&gt;
+&lt;p&gt;Recently I’ve gotten into programming Clojure, which in general has been an
+excellent experience. The community is solid, there’s plenty of good
+documentation about the langauge and (in general) it’s a pleasure to write code
+in Clojure. It’s sort of a stark transition from the curly-brace languages, but
+a mentally stimulating one, and the abstractions that Clojure provides make
+certain problems &lt;em&gt;much&lt;/em&gt; easier to deal with. As part of my transition to the
+Clojure mindset, I’ve been trying to implement some algorithms in Clojure that
+I’ve implemented many times in other languages, and have found that certain
+things, like the sequence abstraction make programming a joy.&lt;/p&gt;
+
+&lt;h3 id=&quot;c-vs-clojure&quot;&gt;C++ vs. Clojure&lt;/h3&gt;
+&lt;p&gt;One useful function from the realm of mathematics is the generalized Euclidian
+Distance function. It takes two n-dimensional points and calculates the distance
+as would be measured by a ruler (read: straight line) between
+them. &lt;img src=&quot;http://upload.wikimedia.org/math/3/e/3/3e31af0e62dd2780540f796b51a0ce4e.png&quot; alt=&quot;Euclidian Distance Formula&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A naive solution in C++ would be the following:&lt;/p&gt;
+&lt;div&gt;
+    &lt;pre&gt;&lt;code class=&quot;cpp&quot;&gt;double euc_distance(Point p, Point q) {
+    int dimension = q.size();
+    double distance
+    vector&amp;lt;double&amp;gt; components;
+    double sum_of_squares = 0;
+
+    for (int i = 0; i &amp;lt; dimension; i++)
+        components.push_back(q.coor()[i] - p.coor()[i]);
+    for (auto it = components.begin(); it != components.end(); ++it)
+        sum_of_squares += pow(*it, 2);
+
+    distance = pow(sum_of_squares, (1.0/2));
+    return distance;
+}&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;This solution assumes that both points will be of the same dimensionality. I’m sure
+there’s a simpler way to do this in C++, but without thinking very hard, this is
+a reasonable solution. Each corresponding component is subtracted, and then each
+of those results is squared and added together, finally the square root is
+taken.&lt;/p&gt;
+
+&lt;p&gt;Here is a Clojure Solution:&lt;/p&gt;
+&lt;div&gt;
+    &lt;pre&gt;&lt;code class=&quot;clj&quot;&gt;(defn euc-distance
+    [x y]
+    {:pre (= (count x) (count y))}
+    (pow (apply + (map #(* % %) (map - x y)))
+        1/2))&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Wow! The Clojure version even makes sure that the two points given to it are
+the same dimensionality! I think it’s a little more difficult to read, (you could
+probably fix this up with one of the thrushing macros) but it
+still makes perfect sense and avoids somewhat ugly things like for loops. It sort of
+forces you to think from the outside-in. If you were to read this, it
+would sound like this: “take the square root of the sum of the squared,
+component-wise subracted points”. Which, if you check against the formula above,
+will get you the right answer.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-does-it-matter&quot;&gt;Why Does It Matter?&lt;/h3&gt;
+&lt;p&gt;There’s a trend recently of “X Language is Better than Y Language because
+factorial looks like this in X Language” type posts, but this one will attempt
+to not be like that, because I don’t see much value in that. The way your chosen
+langauge shapes the way you have to think about a problem is interesting though,
+and being able to represent and think about a problem from different
+perspectives is vital to being a good programmer. Clojure will likely never beat
+C++ in terms of efficiency, and C++ will (by design) never have the same
+syntactical abstraction capabilities of Clojure and other lisps. Design choices
+typically affect what kinds of problems are easy in a given language, but there
+will always be problems that are hard despite design changes to mitigate things.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/article/clojure&quot;&gt;Clojure vs. C++ (My Personal Difficulties)&lt;/a&gt; was originally published by Ian McGaunn at &lt;a href=&quot;&quot;&gt;Boy Meets Perl&lt;/a&gt; on January 21, 2014.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Jensen Kimmit - Cuts]]></title>
+  <link rel="alternate" type="text/html" href="/videos/jensen-kimmit" />
+  <id>/videos/jensen-kimmit</id>
+  <published>2014-01-19T00:00:00-05:00</published>
+  <updated>2014-01-19T00:00:00-05:00</updated>
+  <author>
+    <name>Ian McGaunn</name>
+    <uri></uri>
+    <email>ianmcgaunn@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;This is a very old video (by internet terms) but it showcases my favorite things
+about yoyo: simplicity and creativity. Jensen Kimmit is not known to be the most
+technically complicated yoyo players, but he is known to experiment with very
+interesting stylistic elements. Anyway, watch the video it’s good!&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;//www.youtube.com/embed/_oMknDjF55c&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/videos/jensen-kimmit&quot;&gt;Jensen Kimmit - Cuts&lt;/a&gt; was originally published by Ian McGaunn at &lt;a href=&quot;&quot;&gt;Boy Meets Perl&lt;/a&gt; on January 19, 2014.&lt;/p&gt;</content>
+</entry>
+
+</feed>
